@@ -8,3 +8,4 @@ then
     cd Database
     tar -xvf nr.tar.gz
 fi
+rm -rf nr.tar.gz    
