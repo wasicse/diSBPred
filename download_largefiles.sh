@@ -12,7 +12,7 @@ while read -r line; do
         filename=$(basename "$line")
         wget -nc https://www.cs.uno.edu/~mkabir3/$destinationFolder/$filename.tar.gz -P ./
         tar -xzvf $filename.tar.gz
-        mv $line "../$line2" 
+        mv $filename "../$line2" 
     fi
 done <$file
 
