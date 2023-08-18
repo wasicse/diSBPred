@@ -1,0 +1,413 @@
+#!/bin/sh
+#purpose: run BalancedSSP 
+#author: Sumaiya Iqbal and Md Nasrul Islam
+
+export IUPred_PATH=../AdditionalFiles/iupred
+
+psiblast_path="../../../ncbi-blast-2.2.28+/bin";
+nr_database_path="/home/SharedFiles/Wasi/Databases/nr/nr";
+iupred_path="../AdditionalFiles/iupred";
+libsvm_path="../../../libsvm-3.17";
+spinex_path="../AdditionalFiles/spineXpublic";
+davar_path="../AdditionalFiles/davar";
+
+feature="../../../../Features";
+input_path="../Input";
+source_code_path="../Codes";
+query_sequence_path="../Features";
+pssm_output_file_path="../Features";
+sequence="../Features";
+
+printf "\n-------------- BalancedSSP Start------------------\n";
+for file in `cat $input_path/id_list.txt` ; 
+do 
+	printf "\nID: "$file;
+	printf "\n";
+	
+	#===========================================================================================================
+	# check and process input
+	
+	if [ -f $input_path/FASTA/$file.fasta ];
+	then
+		if [ -f ../Features/$file/$file.fasta ];
+		then
+			printf "Directory and fasta file already exists!!\n";
+		else	
+			cd $source_code_path;
+			g++ -o start processInput.cpp
+			./start $file;
+			printf "processing Input...";
+			printf "...DONE!!!\n";
+			rm start;
+		fi	
+	else
+		printf "Error --- FASTA file not found in Input/FASTA directory!!!\n";
+		exit 1;
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	#Run PSI-BLAST to generate PSSM
+	
+	cd ../Scripts/
+	cp ../PSSM/$file.mat ../Features/$file/$file.mat;
+	cp ../PSSM/$file.mat ../Features/$file/$file.pssm;
+	if [ -f ../Features/$file/$file.mat ];
+	then
+		printf "PSSM already exists!!\n";
+                cp $pssm_output_file_path/$file/$file.mat $pssm_output_file_path/$file/$file.pssm;
+	else
+		printf "running PSI-BLAST...";
+		$psiblast_path/psiblast -query $query_sequence_path/$file/$file.fasta -db $nr_database_path -out $pssm_output_file_path/$file/$file.out -num_iterations 3 -num_threads 16 -out_ascii_pssm $pssm_output_file_path/$file/$file.pssm > ../Output/log/log_PSSM.txt;
+		cp $pssm_output_file_path/$file/$file.pssm $pssm_output_file_path/$file/$file.mat;
+		printf "...DONE!!!\n";	
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	#Run IUPred (short & long)
+	if [ -f ../Features/$file/$file.iupredS ] && [ -f ../Features/$file/$file.iupredL ];
+	then
+		printf "IUPred short & long already exists!!\n";
+	else
+		printf "running IUPred (short & long)...";
+		cc $iupred_path/iupred.c -o $iupred_path/iupred;
+		$iupred_path/iupred $sequence/$file/$file.fasta short > $sequence/$file/$file.iupredS;
+		$iupred_path/iupred $sequence/$file/$file.fasta long > $sequence/$file/$file.iupredL;
+		printf "...DONE!!!\n";
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	#Run Monogram, Bigram computation
+	if [ -f ../Features/$file/$file.monogram ] && [ -f ../Features/$file/$file.bigram ];
+	then
+		printf "Monorgam & Bigram exists!!\n";
+	else
+		cd $source_code_path;
+		printf "generating monogram and bigram...";
+		g++ -o mg_bg computeMG_BG.cpp
+		./mg_bg $file
+		printf "...DONE!!!\n";
+		rm mg_bg;
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	#Run SPINE-X
+	if [ -f ../Features/$file/$file.spXout ];
+	then
+		printf "SPINE X output exists!!\n";
+	else
+		printf "running SPINE-X...";
+		truncate $spinex_path/test/list1 --size 0; 
+		echo $file > $spinex_path/test/list1;
+		mv ../Features/$file/$file.fasta ../Features/$file/$file
+		cp ../Features/$file/$file $spinex_path/test/sequence;
+		cp ../Features/$file/$file.mat $spinex_path/test/profile;
+		$spinex_path/spX.pl $spinex_path/test/list1 $spinex_path/test/profile/ > ../Output/log/log_spinex.txt;
+		cp spXout/$file.spXout ../Features/$file;
+		rm -r spXout;
+		printf "...DONE!!!\n";
+		mv ../Features/$file/$file ../Features/$file/$file.fasta
+	fi
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	# run DAVAR for angle fluctuation
+	if [ -f ../Features/$file/$file.dphi ] && [ -f ../Features/$file/$file.dpsi ];
+	then
+		printf "phi fluctuation & psi fluctuation exists!!\n";
+	else
+		# collecting features for DAVAR
+		printf "collecting features for angle fluctuation prediction...";
+		cd $source_code_path;
+		g++ -o davar_features collect_davar_features.cpp
+		./davar_features $file;
+		printf "...DONE!!!\n";
+		rm davar_features;
+		
+		#Run DAVAR
+		cd $davar_path/
+		printf "running angle (phi,psi) fluctuation prediction...";
+		
+		#echo "Round 1...";
+		cd dphi/round1/;
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+	
+		#echo "Round 2...";
+		cd ../round2/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 3...";
+		cd ../round3/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 4...";
+		cd ../round4/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 5...";
+		cd ../round5/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		cd ../../
+	
+		#echo "Round 1...";
+		cd dpsi/round1/;
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 2...";
+		cd ../round2/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 3...";
+		cd ../round3/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		#echo "Round 4...";
+		cd ../round4/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+	
+		#echo "Round 5...";
+		cd ../round5/
+		truncate genn_test.db --size 0;
+		echo "$feature/$file/$file.davar_features" >> genn_test.db;
+		./genn_test.pl > mytmp.txt;
+		
+		cd ../../../../Codes;
+		g++ -o phi_psi collect_phi_psi_fluctuations.cpp
+		./phi_psi
+		rm phi_psi
+		
+		cp test.dphi ../Features/$file/$file.dphi;
+		cp test.dpsi ../Features/$file/$file.dpsi;
+		
+		rm test.dphi;
+		rm test.dpsi;
+		printf "...DONE!!!\n";
+	fi		
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	# Run DisPredict
+	if [ -f ../Features/$file/$file.drp ];
+	then
+		printf "DisPredict output already exists!!\n";
+	else
+		#===========================================================================================================
+		# Collect all features of DisPredict and apply windowing
+		printf "preparing final input features of DisPredict...";
+		cd $source_code_path;
+		g++ -o collect_features collect_all_features_dispredict.cpp
+		./collect_features $file
+		g++ -o input final_input_preparation_dispredict.cpp
+		./input $file
+		printf "...DONE!!!\n";
+		rm collect_features;
+		rm input;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		# run prediction
+		mkdir ../Output/prediction/$file
+		mkdir ../Output/prediction/$file/SL477
+		mkdir ../Output/prediction/$file/MxD444
+		printf "running DisPredict...";
+		g++ -o prediction DisPredict_prediction.cpp
+		./prediction $file $libsvm_path
+		cp ../Output/prediction/$file/SL477/$file.drp ../Features/$file/$file.drp;
+		printf "...DONE!!!\n";
+		rm prediction;
+		rm -R ../Output/prediction/$file;
+		#===========================================================================================================
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	#predict secondary structure and process output
+	cd $source_code_path;
+	if [ -f ../Features/$file/$file.SSp ];
+	then
+		printf "Predicted intermediate Secondary structure output already exists!!\n";
+	else
+		#===========================================================================================================
+		#Gather 52 features for SS prediction
+		cd $source_code_path;
+		printf "collecting features for intermediate SS prediction...";
+		g++ -o ssf collectFeatures_SS.cpp
+		./ssf $file
+		printf "...DONE!!!\n";
+		rm ssf;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		#apply windowing and prepare final input for initial SS prediction by libsvm
+		cd $source_code_path;
+		printf "generating input for intermediate SS prediction...";
+		g++ -o inputss prepareInput_SS.cpp
+		./inputss $file
+		printf "...DONE!!!\n";
+		rm inputss;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		# run prediction
+		mkdir ../Output/prediction/$file;
+		mkdir ../Output/prediction/$file/SS;
+		printf "predicting intermediate secondary structure and processing output...";
+		g++ -o predictss predictSS_processOutput.cpp
+		./predictss $file $libsvm_path
+		cp ../Output/prediction/$file/SS/$file.SSp ../Features/$file/$file.SSp;
+		printf "...DONE!!!\n";
+		rm predictss;
+		#===========================================================================================================
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	# Predict ASA
+	cd $source_code_path;
+	if [ -f ../Features/$file/$file.ASAp ];
+	then
+		printf "Predicted Secondary structure output already exists!!\n";
+	else
+		#===========================================================================================================
+		#Gather 55 features for ASA prediction
+		cd $source_code_path;
+		printf "collecting features for ASA prediction...";
+		g++ -o asaf collectFeatures_ASA.cpp
+		./asaf $file
+		printf "...DONE!!!\n";
+		rm asaf;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		#Prepare exact input for ASA prediction
+		cd $source_code_path;
+		printf "generating input for ASA prediction...";
+		g++ -o inputasa prepareInput_ASA.cpp
+		./inputasa $file
+		printf "...DONE!!!\n";
+		rm inputasa;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		# run prediction
+		mkdir ../Output/prediction/$file/ASA;
+		printf "predicting ASA...";
+		g++ -o predictasa predictASA_processOutput.cpp
+		./predictasa $file
+		cp ../Output/prediction/$file/ASA/$file.ASAp ../Features/$file/$file.ASAp;
+		printf "...DONE!!!\n";
+		rm predictasa;
+		rm -R ../Output/prediction/$file;
+		#===========================================================================================================
+	fi
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	# Run cSVM
+	if [ -f ../Features/$file/$file.binary.beta.predict ];
+	then
+		printf "binary output already exists!!\n";
+	else
+		#===========================================================================================================
+		#Gather 33 features for Final Balanced SS prediction
+		cd $source_code_path;
+		printf "collecting features for final balanced SS prediction...";
+		g++ -o bal_ss gather_features_33.cpp
+		./bal_ss $file
+		printf "...DONE!!!\n";
+		rm bal_ss;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		#apply windowing and prepare final input for cSVM SS prediction by libsvm
+		cd $source_code_path;
+		printf "generating libsvm input for cSVM SS prediction...";
+		g++ -o inputBinary generate_combined_input_binary.cpp
+		./inputBinary $file
+		printf "...DONE!!!\n";
+		rm inputBinary;
+		#===========================================================================================================
+		
+		#===========================================================================================================
+		# run binary prediction
+		cd $source_code_path;
+		printf "generating binary SS prediction...";
+		g++ -o binarySS predict_binary_SS.cpp
+		./binarySS $file $libsvm_path
+		printf "...DONE!!!\n";
+		rm binarySS;
+		#===========================================================================================================
+	fi	
+	#===========================================================================================================
+	
+	#===========================================================================================================
+	# Final cSVM and MetaSSPred prediction generation
+	
+	mkdir ../Output/prediction/$file;
+	mkdir ../Output/prediction/$file/cSVM;
+	mkdir ../Output/prediction/$file/MetaSSPred;
+	cd $source_code_path;
+	printf "final meta(balanced) SS prediction...";
+	g++ -o finalSS predict_cSVM_MetaSSPred.cpp
+	./finalSS $file 
+	printf "...DONE!!!\n";
+	rm finalSS;
+	
+	
+	#===========================================================================================================
+	
+done
+printf "\n-------------- BalancedSSP End------------------\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

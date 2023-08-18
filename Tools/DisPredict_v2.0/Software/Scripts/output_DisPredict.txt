@@ -1,0 +1,24 @@
+
+-------------- DisPredict_v2.0 Start------------------
+
+1
+
+ID: example
+Directory and fasta file already exists!!
+cp: cannot stat '../PSSM/example.mat': No such file or directory
+cp: cannot stat '../PSSM/example.mat': No such file or directory
+PSSM already exists!!
+IUPred short & long already exists!!
+Monorgam & Bigram exists!!
+SPINE X output exists!!
+phi fluctuation & psi fluctuation exists!!
+preparing input features of DisPredict1......DONE!!!
+Predicted intermediate Secondary structure output already exists!!
+Predicted Secondary structure output already exists!!
+PSEE exists!!
+dispredict2 features already exists!!
+mkdir: cannot create directory ‘../Output/prediction/example’: File exists
+mkdir: cannot create directory ‘../Output/prediction/example/DisPredict2’: File exists
+running DisPredict2......DONE!!!
+
+-------------- DisPredict_v2.0 End------------------

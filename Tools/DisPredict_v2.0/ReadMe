@@ -1,0 +1,129 @@
+DisPredict_v2.0
+================
+DisPredict is a predictor of disorder residues in protein. 
+It takes protein sequence (standard FASTA format) as input
+and outputs per residue binary annotation (disorder or order)
+along with two real values corresponding to probability
+of that residue being disorder and order. DisPredict2 includes 
+position specific estimated energy as feature.
+
+Current version 2.0
+
+By Sumaiya Iqbal and Md Tamjidul Hoque, 2016
+
+Contact:
+	thoque@uno.edu
+	siqbal1@my.uno.edu (anni.are@gmail.com)
+	
+Availability
+============
+DisPredict2 is available at:
+http://cs.uno.edu/~tamjid/Software/PSEE/PSEE.zip
+
+Quick Run Guide
+===============
+	
+1) SET input
+	- Redirect into DisPredict_v2.0/Software/Input
+	- Follow the instructions in "ReadMe_Input.txt" to complete "Raw_Data.txt" and "id_list.txt"
+	
+2) SET path variables within script 'run_DisPredict_v2.0'
+	- Redirect into DisPredict_v2.0/Software/Scripts
+	- SET path of PSI-BLAST (BLAST/bin) and NR database
+	- SET path of installed SPINE-X
+	- SET path of IUPred source codes
+	- SET path of DAVAR (phi,psi fluctuation prediction software)
+	- SET path of libSVM installation directory 
+	
+3) Run prediction
+	- Redirect into DisPredict_v2.0/Software/Scripts	
+	- Execute 'runDisPredict_v2.0'
+		- ./runDisPredict_v2.0 (SET the permission if required)
+	- Prediction outputs will be at "Output/prediction/"
+		- 'id.dispredict2.sl477.predict' 
+	- Final formatted (CASP-like) outputs will be at DisPredict2 subdirectory for each id
+		- 'id.drp'		
+		
+Thanks!!
+ENJOY!!		
+
+How To Run DisPredict2
+================
+
+Prerequisite
+============
+
+1) PSI-BLAST with NR database (from NCBI toolkit) 
+Availability > ftp://ftp.ncbi.nih.gov/blast/
+Output > PSSM
+
+2) SPINE X (Install it in 'AdditionalFiles' directory of Software)
+Availability > http://sparks.informatics.iupui.edu/SPINE-X/
+Installation > tar zxf spineXpublic.tgz
+			 > ./compile
+Output > secondary strucutre probabilities (helix, strand and coil)
+		 accessible surface area and 
+		 torsion angles (phi and psi) 
+		 
+3) IUPred (Installed in 'AdditionalFiles' directory of Software)
+Availability > http://iupred.enzim.hu/
+Output > prediction of intrinsically unstructured protein 
+Note: 
+	> The output (short disorder) is used for DAVAR -> phi, psi backbone torsion angle fluctuations prediction
+	> This output is NOT used for DisPredict	
+
+4) DAVAR (Installed in 'AdditionalFiles' directory of Software)
+Reference: 
+	> E. Faraggi et al., ``Improving the prediction accuracy of residue solvent 
+	accessibility and real-value backbone torsion angles of proteins by fast guided-
+	learning through a two-layer neural network.'', Proteins 74, 857-871 (2009)
+	> contact @'yaoqi.zhou@griffith.edu.au' for the software
+	
+4) libSVM
+Availability > http://www.csie.ntu.edu.tw/~cjlin/libsvm
+Keep the binary files to execute "svm-scale" and "svm-predict" in the directory SuppMaterial_DisPredict/Software/Codes/
+
+5) GCC
+Availability > http://gcc.gnu.org/
+The source codes are written in C/C++. To compile and execute, GCC is needed.
+
+Input feature format
+====================
+
+For a protein sequence, following per residue features must be collected in space separated columns:
+
+1) Column 1: binary class label
+				- disorder: +1 and order: -1
+				- for a test protein sequence, use dummy (+1/-1) class label		
+2) Column 2: amino acid type
+				- one numerical value out of 20
+				-  (1, 2, 3, ..., 20) for (A R N D C Q E G H I L K M F P S T W Y V)
+3) Column 3 - 9: 7 physical parameters
+					- available at SuppMaterial_DisPredict/Software/AdditionalFiles/Physical_Parameters.txt	
+
+4) Column 10 - 29: 20 PSSMs
+					- generate with PSI-BLAST and normalize using 9.0	
+										
+5) Column 30 - 32: 3 secondary structure (helix, strand and coil) probabilities
+					- generate using SPINE X
+					
+6) Column 33: 1 accessible surface area
+				- generate using SPINE X
+					
+7) Column 34 - 35: 2 torsion angle (phi and psi) fluctuations
+				- generate using DAVAR 
+
+8) Column 36 - 56: 1 monogram and 20 bigrams
+				- generate using source code provided with DisPredict supplementary materials
+				- available at SuppMaterial_DisPredict/Software/Source Codes
+				- guidelines to execute it is described in "Steps to prediction" below
+				- normalize the values with exponent (6.0)
+
+9) Column 57: 1 Position Specific Estimated Energy (PSEE)
+				
+10) Column 58: 1 terminal indicator
+				- 5 residues from N-terminal: -1.0, -0.8, -0.6, -0.4, -0.2
+				- 5 residues from C-terminal: +1.0, +0.8, +0.6, +0.4, +0.2
+				- rest: 0.0
+
+END!

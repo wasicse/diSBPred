@@ -1,0 +1,65 @@
+BalancedSSP
+===========
+BalancedSSP is a balanced high throughput secondary structure (SS) predictor 
+which may achieve high overall accuracy as well as maintain good accuracies 
+in all three SS components. For this, we proposed a novel approach using 
+three different support vector machines (SVMs) for binary classification 
+of the major classes: beta (E), coil (C) and helix (H), and then formed 
+optimized multiclass predictor, called cSVM, using genetic algorithm (GA). 
+The trained three binary SVMs are E versus non-E ( E/~E), C versus non-C (C/~C)
+and H versus non-H (H/~H). cSVM is further combined with SPINE X to form the 
+proposed final balanced predictor, MetaSSPred. The basic input is protein 
+sequence in standard fasta format and the output is predicted secondary 
+structure for each residue in the sequence. 
+
+By Md Nasrul Islam, Sumaiya Iqbal and Md Tamjidul Hoque, April, 2015
+
+Contact:
+	thoque@uno.edu
+	mnislam@uno.edu
+	siqbal1@my.uno.edu (anni.are@gmail.com)
+	
+Availability
+============
+BalancedSSP is available at:
+http://cs.uno.edu/~tamjid/Software.html
+
+Quick Run Guide
+===============
+
+1) SET input
+	- Redirect into BalancedSSP/Software/Input
+	- Follow the instructions in "ReadMe_Input.txt" to complete "id_list.txt"
+	
+2) SET path variables within script 'run_BalancedSSP'
+	- Redirect into BalancedSSP/Software/Scripts
+	- SET path of PSI-BLAST (BLAST/bin) and NR database
+	- SET path of IUPred source codes (given within the software in AdditionalFiles directory)
+	- SET path of libSVM installation directory 
+	- SET path of DAVAR source codes (given within the software in AdditionalFiles directory)
+	- SET path of SPINE-X source codes (given within the software in AdditionalFiles directory)
+	
+3) Run prediction
+	- Redirect into BalancedSSP/Software/Scripts	
+	- Execute 'run_BalancedSSP'
+		- ./run_BalancedSSP (SET the permission if required)
+	- Prediction outputs of secondary structure by cSVM will be at "Output/prediction/$id/cSVM"
+		- 'id.cSVMpred'
+	- Prediction outputs of secondary structure by MetaSSPred will be at "Output/prediction/$id/MetaSSpred"
+		- 'id.MetaSSpred'		
+For detail description of Software, users are requested to read 'ReadMe' in 'BalancedSSP' package.
+		
+Thanks!!
+ENJOY!!		
+
+
+
+
+
+
+
+
+
+
+
+

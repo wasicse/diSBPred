@@ -1,0 +1,48 @@
+
+-------------- BalancedSSP Start------------------
+
+ID: Pf12
+Length: 347
+processing Input......DONE!!!
+PSSM already exists!!
+running IUPred (short & long)......DONE!!!
+generating monogram and bigram......DONE!!!
+running SPINE-X......DONE!!!
+collecting features for angle fluctuation prediction......DONE!!!
+running angle (phi,psi) fluctuation prediction......DONE!!!
+preparing final input features of DisPredict......DONE!!!
+running DisPredict......DONE!!!
+collecting features for intermediate SS prediction......DONE!!!
+generating input for intermediate SS prediction......DONE!!!
+predicting intermediate secondary structure and processing output......DONE!!!
+collecting features for ASA prediction......DONE!!!
+generating input for ASA prediction......DONE!!!
+predicting ASA......DONE!!!
+collecting features for final balanced SS prediction......DONE!!!
+generating libsvm input for cSVM SS prediction......DONE!!!
+generating binary SS prediction......DONE!!!
+final meta(balanced) SS prediction......DONE!!!
+
+ID: Pfs230C1
+Length: 296
+processing Input......DONE!!!
+PSSM already exists!!
+running IUPred (short & long)......DONE!!!
+generating monogram and bigram......DONE!!!
+running SPINE-X......DONE!!!
+collecting features for angle fluctuation prediction......DONE!!!
+running angle (phi,psi) fluctuation prediction......DONE!!!
+preparing final input features of DisPredict......DONE!!!
+running DisPredict......DONE!!!
+collecting features for intermediate SS prediction......DONE!!!
+generating input for intermediate SS prediction......DONE!!!
+predicting intermediate secondary structure and processing output......DONE!!!
+collecting features for ASA prediction......DONE!!!
+generating input for ASA prediction......DONE!!!
+predicting ASA......DONE!!!
+collecting features for final balanced SS prediction......DONE!!!
+generating libsvm input for cSVM SS prediction......DONE!!!
+generating binary SS prediction......DONE!!!
+final meta(balanced) SS prediction......DONE!!!
+
+-------------- BalancedSSP End------------------

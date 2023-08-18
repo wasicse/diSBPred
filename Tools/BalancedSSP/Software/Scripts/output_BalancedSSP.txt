@@ -1,0 +1,27 @@
+
+-------------- BalancedSSP Start------------------
+
+ID: example
+Directory and fasta file already exists!!
+cp: cannot stat '../PSSM/example.mat': No such file or directory
+cp: cannot stat '../PSSM/example.mat': No such file or directory
+PSSM already exists!!
+IUPred short & long already exists!!
+Monorgam & Bigram exists!!
+SPINE X output exists!!
+phi fluctuation & psi fluctuation exists!!
+DisPredict output already exists!!
+collecting features for intermediate SS prediction......DONE!!!
+generating input for intermediate SS prediction......DONE!!!
+mkdir: cannot create directory ‘../Output/prediction/example’: File exists
+mkdir: cannot create directory ‘../Output/prediction/example/SS’: File exists
+predicting intermediate secondary structure and processing output......DONE!!!
+collecting features for ASA prediction......DONE!!!
+generating input for ASA prediction......DONE!!!
+predicting ASA......DONE!!!
+collecting features for final balanced SS prediction......DONE!!!
+generating libsvm input for cSVM SS prediction......DONE!!!
+generating binary SS prediction......DONE!!!
+final meta(balanced) SS prediction......DONE!!!
+
+-------------- BalancedSSP End------------------

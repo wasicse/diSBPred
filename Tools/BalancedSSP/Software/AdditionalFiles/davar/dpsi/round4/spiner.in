@@ -1,0 +1,22 @@
+2000		 nte -- number of training epochs
+1		 npe -- size of protein set
+1		 ipe -- iterations per exemplar
+0.001		 ratel -- initial learning rate
+0.4		 rmoment -- initial momentum
+0.2		 alpha parameter in training function
+2.0		 dfac parameter for distance decay matrix
+1		 set for cross validation (out of 10)
+0.1		 fraction to cross validate on
+0		 :qscale: Question: scale inputs? (0-no / 1-yes)
+1.0		 :bsint:  scaling factor (x_scaled = bsint * (x - <x>)/std(x))
+genn_test.db     :dbfile: file containing names of training proteins (note: file name should be less than 15 characters long)
+15		 :window: input window size around residue to be predicted
+51		 :level1: hidden nodes in level1
+51               :level2: hidden nodes in level2
+34		 :ninput: number of inputs (first columns of database file)
+1		 :noutput: number of outputs
+36		 :outpos: column positions of outputs (seperated with spaces)
+
+-- 
+Input for genn.pl
+

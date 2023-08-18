@@ -1,0 +1,333 @@
+BalancedSSP
+===========
+BalancedSSP is a balanced high throughput secondary structure (SS) predictor 
+which may achieve high overall accuracy as well as maintain good accuracies 
+in all three SS components. For this, we proposed a novel approach using 
+three different support vector machines (SVMs) for binary classification 
+of the major classes: beta (E), coil (C) and helix (H), and then formed 
+optimized multiclass predictor, called cSVM, using genetic algorithm (GA). 
+The trained three binary SVMs are E versus non-E ( E/~E), C versus non-C (C/~C)
+and H versus non-H (H/~H). cSVM is further combined with SPINE X to form the 
+proposed final balanced predictor, MetaSSPred. The basic input is protein 
+sequence in standard fasta format and the output is predicted secondary 
+structure for each residue in the sequence. 
+
+By Md Nasrul Islam, Sumaiya Iqbal and Md Tamjidul Hoque, April, 2015
+
+Contact:
+	thoque@uno.edu
+	mnislam@uno.edu
+	siqbal1@my.uno.edu (anni.are@gmail.com)
+	
+Availability
+============
+BalancedSSP is available at:
+http://cs.uno.edu/~tamjid/Software.html
+
+***QUICK RUN***
+===============
+See 'QuickRunGuidelines' for quick and complete run of BalancedSSP.
+The rest of this file contains detail description of the software.
+
+Table of Contents
+=================
+- How To Run BalancedSSP
+	- Prerequisite 
+	- Input feature format
+	- Brief of source codes
+- Software material guideline
+- Example
+- Quick Run Guidelines	
+
+How To Run BalancedSSP
+=====================
+
+Prerequisite
+============
+
+1) PSI-BLAST with NR database (from NCBI toolkit) 
+Availability > ftp://ftp.ncbi.nih.gov/blast/
+Output > PSSM
+		 
+2) IUPred (Installed in 'AdditionalFiles' directory of Software)
+Availability > http://iupred.enzim.hu/
+Output > prediction of intrinsically unstructured protein 
+Note: 
+	> Output (predicted short and long disorder probability) 	
+	> Used for REGAd3p ASA predictor
+
+3) DAVAR (Installed in 'AdditionalFiles' directory of Software)
+Availability > http://iupred.enzim.hu/
+Output > prediction of torsion angle fluctuation prediction 
+Note: 
+	> Output (predicted phi and psi fluctuation) 	
+	> Used for DisPredict disorder predictor
+Reference: 
+	> E. Faraggi et al., ``Improving the prediction accuracy of residue solvent 
+	accessibility and real-value backbone torsion angles of proteins by fast guided-
+	learning through a two-layer neural network.'', Proteins 74, 857-871 (2009)
+	> contact @'yaoqi.zhou@griffith.edu.au' for the software
+	
+4) SPINE X (Install it in 'AdditionalFiles' directory of Software)
+Availability > http://sparks.informatics.iupui.edu/SPINE-X/
+Installation > tar zxf spineXpublic.tgz
+			 > ./compile
+Output > secondary strucutre probabilities (helix, strand and coil)
+		 accessible surface area and 
+		 torsion angles (phi and psi) 	
+5) libSVM
+Availability > http://www.csie.ntu.edu.tw/~cjlin/libsvm
+Note:
+	> used to generate 3 class classification model for secondary structure
+	> need to predict secondary structure probabilities per residue which are used as features to predict ASA
+	
+6) GCC
+Availability > http://gcc.gnu.org/
+The source codes are written in C/C++. To compile and execute, GCC is needed.
+
+Input feature format
+====================
+
+For a protein sequence, following per residue features must be collected in space separated columns:
+
+1) Column 1: actual annotation
+				- actual value, collected from DSSP
+				- for a test protein sequence, use dummy: 1 for SS and 0 for ASA		
+2) Column 2: amino acid type
+				- one numerical value out of 20
+				-  (1, 2, 3, ..., 20) for (A R N D C Q E G H I L K M F P S T W Y V)
+				
+3) Column 3 - 9: 7 physical parameters
+					- available at REGAd3p/Software/AdditionalFiles/physiochemical_properties.txt	
+
+4) Column 10 - 29: 20 PSSMs
+					- generate with PSI-BLAST and normalize using 9.0	
+				
+5) Column 30: 1 disorder probability
+				- collected by running DisPredict
+
+6) Column 31: 1 predicted ASA value
+					- generate using REGAd3p
+
+7) Column 32 - 33:  2 predicted torsion angle fluctuation prediction
+					- generated using DAVAR
+					
+8) Column 34: 1 terminal indicator
+					- 5 residues from N-terminal: -1.0, -0.8, -0.6, -0.4, -0.2
+					- 5 residues from C-terminal: +1.0, +0.8, +0.6, +0.4, +0.2
+					- rest: 0.0
+					
+Brief of source codes
+======================
+
+1) processInput.cpp
+	- creates a subdirectory for each 'id' in Features/
+	- copy .fasta file into that directory
+	- If fasta file not found in Input, exit.
+	- log files are generated in the Output/log directory
+
+2) Generate PSSM 
+	- Integrated within the script run_BalancedSSP
+		- SET path of PSI-BLAST (BLAST/bin) and NR database within the script
+	- creates the output with name 'id.out', 'id.pssm' in BalancedSSP/Software/Features/id
+
+3) Execute IUPred 
+	- Integrated within the script run_BalancedSSP
+		- SET path of installed IUPred within the script
+	- creates the output with name 'id.iupredS', 'id.iupredL' in BalancedSSP/Software/Features/id
+	
+4) computeMG_BG.cpp
+	- create two file in Features/$id directory 
+		- name format: 'id.monogram' and 'id.bigram'
+	- log files are generated in the Output/log directory
+
+5) Execute SPINE-X
+	- Integrated within the script run_BalancedSSP
+		- SET path of installed SPINE-X within the script
+	- Keep the output with name 'id.spXout' in BalancedSSP/Software/Features/$id
+
+6) Execute DAVAR
+	- Integrated within the script run_BalancedSSP
+		- SET path of installed DAVAR within the script
+	- Keep the output with name 'id.dphi' and 'id.dpsi' in BalancedSSP/Software/Features/$id
+
+7) collect_all_features_dispredict.cpp
+	- Collect all features for running DisPredict to compute disorder probability
+
+8) final_input_preparation_dispredict.cpp
+	- Apply windowing and generate libSVM formatted input for DisPredict
+
+9) DisPredict_prediction
+	- Execute prediction by DisPredict
+	- Keep the output with name 'id.drp' in BalancedSSP/Software/Features/$id
+	
+10) collectFeatures_SS.cpp (intermediate step for REGAd3p)
+	- collects 52 features pre residue for secondary structure prediction
+	- Keep the output with name 'id.initialSS.features' in BalancedSSP/Software/Features/$id
+	
+11) prepareInput_SS.cpp (intermediate step for REGAd3p)
+	- apply windowing on 52 features for SS prediction and generate final formatted input for libsvm
+	- Keep the output with name 'id.initialSS.input' in BalancedSSP/Software/Features/$id
+		
+7) predictSS_processOutput.cpp (intermediate step for REGAd3p)
+	- Predict SS by SVM model and process (format) the output
+		- SET path of installed libsvm within the script
+	- creates the output with name 'id.SSp' in REGAd3p/Software/Features/$id
+	- log files are generated in the Output/log directory
+	
+8) collectFeatures_ASA.cpp (intermediate step for REGAd3p)
+	- collects 55 features pre residue for ASA prediction
+	- Keep the output with name 'id.ASA.features' in BalancedSSP/Software/Features/$id
+	
+9) prepareInput_ASA.cpp (intermediate step for REGAd3p)
+	- apply windowing on 55 features for ASA prediction with 
+	an extra bias column of value 1 and generate final formatted input for exact regression
+	- Keep the output with name 'id.ASA.input' in BalancedSSP/Software/Features/$id
+		
+10) predictASA_processOutput.cpp	
+	- Predict ASA by exact method and process (format) the output
+	- log files are generated in the Output/log directory
+	- final formatted output is kept in BalancedSSP/Software/Features/$id/'id.ASAp'
+
+11) gather_features_33.cpp
+	- Gather 33 features for Balanced SS prediction
+	- formatted output is kept in BalancedSSP/Software/Features/$id/'$id.BalancedSSP.f33'
+	
+12) generate_combined_input_binary.cpp
+	- apply windowing and prepare final input for binary SS prediction within BalancedSSP by libsvm
+	- final formatted output is kept in BalancedSSP/Software/Features/$id/'id..binary.input'
+
+13) predict_binary_SS.cpp
+	- predict binary SS (E/~E), (C/~C) and (H/~H)
+	- Keep the output with name 'id.binary.beta.predict', 'id.binary.coil.predict' and 'id.binary.helix.predict' in BalancedSSP/Software/Features/$id
+
+14) predict_cSVM_MetaSSPred.cpp
+	- generate cSVM prediction (binary output is combined with GA optimized weights)
+		- Output: /Output/prediction/$id/cSVM/$id.cSVMpred
+	- generate Meta prediction (cSVM output is combined with SPINE-X prediction)
+		- Output: /Output/prediction/$id/MetaSSPred/$id.MetaSSpred
+	
+Software material guideline
+================================
+
+Data
+====
+- T552.list
+	- list of protein ids for training 
+- CB471.list
+	- list of protein ids for testing
+- N295.list
+	- list of protein ids for testing
+	
+Additional Files
+=================
+- physiochemical_properties.txt 
+	- contains physical parameters for 20 amino acids
+- IUPred
+	- intrinsically unstructured protein prediction used as features
+- SPINE-X
+	- ANN based secondary structure predictor
+DAVAR
+	- ANN based phi an dpsi fluctuation predictor
+		
+Models
+=======
+- SVM model for DisPredict
+	- BalancedSSP/Software/Models/DisPredict_SVM
+- SVM model for intermediate secondary structure prediction within REGAd3p
+	- BalancedSSP/Software/Models/SS_SVM/SSD_TR1001.libsvm.scale.model
+- Weights for ASA prediction
+	- BalancedSSP/Software/Models/ASA_WEIGHT/weight.txt
+- SVM models for binary SS prediction by BlancedSSP
+	- BalancedSSP/Software/Models/binary
+- Weights for cSVM prediction
+	- BalancedSSP/Software/Models/cSVM
+	
+Features
+========
+- A protein ('id') specific feature files and intermediate outputs throughout the prediction:
+- id.fasta
+	- FASTA formatted file
+- id.pssm
+	- PSSM
+- id.iupredS
+	- IUPred (short) output
+- id.iupredL
+	- IUPred (short) output
+- id.monogram
+	- Monograms
+- id.bigram
+	- Bigrams
+- id.spXout	
+	- SPINE-X output
+- id.dphi and id.dpsi
+	- DAVAR output
+- id.all_dispredict_features
+	- all feature for DisPredict	
+- id.final.dispredict.input
+	- final window wise input for DisPredict
+- id.drp
+	- output of DisPredict	
+- id.initialSS.features
+	- per residue 52 features for SS prediction within REGAd3p
+- id.intialSS.input
+	- final input with windowing for SS prediction within REGAd3p
+- id.ss.svm.scale
+	- scaled feature file for SS prediction within REGAd3p
+- id.ss.svm.predict
+	- output of SS prediction from libsvm (not formatted), used as feature	
+- id.initialASA.features
+	- per residue 55 features for ASA prediction within REGAd3p
+- id.ASA.input
+	- final input with windowing for ASA prediction within REGAd3p
+- id.SSp
+	- output of REGAd3p
+- id.ASAp
+	- output ASA from REGAd3p
+- id.BalancedSSP.f33	
+	- 33 features from BalancedSSP
+- id.binary.input
+	- windowed input for binary prediction of BalancedSSp
+- id.binary.beta.predict, is.binary.coil.predict, id.binary.helix.predict
+	- binary prediction output
+	
+Codes
+======
+- Source code (in C/C++) necessary to use REGAd3p (guidelines mentioned above)
+
+Scripts
+=======
+- run_BalancedSSP
+	- script for complete run of BalancedSSP prediction
+		
+Input
+=====
+- FASTA directory contains all proteins to be predicted in standard FASTA format with .fasta extension
+- id.txt contains id list of proteins to be predicted without any extension
+	
+Output
+======
+- log
+	- contains log of intermediate steps throughout prediction
+
+- prediction
+	- cSVM
+		- id.cSVMpred ===> secondary structure prediction output by cSVM (combined binary prediction into three class)
+		- Format: residue serial number, amino acid, predicted secondary structure, three secondary structure probabilities
+	- ASA
+		- id.MetaSSpred ==> secondary structure prediction output by MetaSSPred (combined cSVM and SPINE-X)
+		- Format: residue serial number, amino acid, predicted secondary structure, three secondary structure probabilities
+	
+Example
+=======
+- Sample files are given in Input/ and Output/
+	- use it for sample run
+	
+Quick Run Guidelines
+=====================
+Available in Software/QuickRunGuidelines
+	- Use only those short number of steps for complete and quick run!!
+
+
+Thanks!!
+ENJOY!!

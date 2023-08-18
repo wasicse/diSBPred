@@ -1,0 +1,4 @@
+example
+SVM PREDICT Command: ../../../libsvm-3.17/svm-predict -b 1 ../Features/example/example.binary.beta.scale ../Models/binary/train_b1_f33_W_15.scale.model ../Features/example/example.binary.beta.predict >> ../Output/log/log_example_binary_beta_prediction
+SVM PREDICT Command: ../../../libsvm-3.17/svm-predict -b 1 ../Features/example/example.binary.coil.scale ../Models/binary/train_c1_f33_W_15.scale.model ../Features/example/example.binary.coil.predict >> ../Output/log/log_example_binary_coil_prediction
+SVM PREDICT Command: ../../../libsvm-3.17/svm-predict -b 1 ../Features/example/example.binary.helix.scale ../Models/binary/train_h1_f33_W_15.scale.model ../Features/example/example.binary.helix.predict >> ../Output/log/log_example_binary_helix_prediction
