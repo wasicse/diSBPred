@@ -5,7 +5,7 @@
 export IUPred_PATH=../AdditionalFiles/iupred
 
 psiblast_path="../../../ncbi-blast-2.2.28+/bin";
-nr_database_path="/home/SharedFiles/Wasi/Databases/nr/nr";
+nr_database_path="../../../../Databases/nr/nr";
 iupred_path="../AdditionalFiles/iupred";
 libsvm_path="../../../libsvm-3.17";
 spinex_path="../AdditionalFiles/spineXpublic";

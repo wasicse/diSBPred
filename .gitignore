@@ -1,7 +1,6 @@
 # ignore all . files and . folders
 .*
 !/.gitignore
-!/.dockerignore
 Scripts/cyspair_incsingcysprob_5folddata_ws13.model
 Tools/DisPredict_v2.0/Software/Models/DisPredict2_SVM/DisPredict2_SL477.model
 Tools/DisPredict_v2.0/Software/Models/SS_SVM/SSD_TR1001.libsvm.scale.model
@@ -12,3 +11,4 @@ Tools/BalancedSSP/Software/Models/binary/train_c1_f33_W_15.scale.model
 Tools/BalancedSSP/Software/Models/SS_SVM/SSD_TR1001.libsvm.scale.model
 ReadMe_self.md
 move_largefiles.sh
+Database
