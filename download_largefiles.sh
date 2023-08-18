@@ -18,3 +18,4 @@ done <$file
 
 rm -rf Scripts
 rm  -rf Tools
+cd ..
