@@ -9,31 +9,31 @@ source ./.venv/bin/activate
 Home=$PWD
 
 echo "Removing old Results"
-rm -r Scripts/CombFeatures
-rm -r SingleCysWindowedFile
-rm -r Scripts/IndividualCysPredictionProb
-rm -r Scripts/CysPairWindowedFiles_IncCysProb
-rm -r Scripts/Predictions_IncSingCysProb_5folddata
+rm -f -r Scripts/CombFeatures
+rm -f -r SingleCysWindowedFile
+rm -f -r Scripts/IndividualCysPredictionProb
+rm -f -r Scripts/CysPairWindowedFiles_IncCysProb
+rm -f -r Scripts/Predictions_IncSingCysProb_5folddata
 
 
-rm -r Tools/DisPredict_v2.0/Software/PSSM/*
-rm -r Tools/DisPredict_v2.0/Software/Features/*
-rm -r Tools/DisPredict_v2.0/Software/Output/log/*
-rm -r Tools/DisPredict_v2.0/Software/Output/prediction/*
+rm -f -r Tools/DisPredict_v2.0/Software/PSSM/*
+rm -f -r Tools/DisPredict_v2.0/Software/Features/*
+rm -f -r Tools/DisPredict_v2.0/Software/Output/log/*
+rm -f -r Tools/DisPredict_v2.0/Software/Output/prediction/*
 
-rm -r Tools/DisPredict_v2.0/Software/Input
-rm -r Tools/BalancedSSP/Software/PSSM/*
-rm -r Tools/BalancedSSP/Software/Features/*
-rm -r Tools/BalancedSSP/Software/Output/log/*
-rm -r Tools/BalancedSSP/Software/Output/prediction/*
+rm -f -r Tools/DisPredict_v2.0/Software/Input
+rm -f -r Tools/BalancedSSP/Software/PSSM/*
+rm -f -r Tools/BalancedSSP/Software/Features/*
+rm -f -r Tools/BalancedSSP/Software/Output/log/*
+rm -f -r Tools/BalancedSSP/Software/Output/prediction/*
 
-rm -r Tools/BalancedSSP/Software/Input
+rm -f -r Tools/BalancedSSP/Software/Input
 
-mkdir Scripts/CombFeatures
-mkdir Scripts/SingleCysWindowedFile
-mkdir Scripts/IndividualCysPredictionProb
-mkdir Scripts/CysPairWindowedFiles_IncCysProb
-mkdir Scripts/Predictions_IncSingCysProb_5folddata
+mkdir -p Scripts/CombFeatures
+mkdir -p Scripts/SingleCysWindowedFile
+mkdir -p Scripts/IndividualCysPredictionProb
+mkdir -p Scripts/CysPairWindowedFiles_IncCysProb
+mkdir -p Scripts/Predictions_IncSingCysProb_5folddata
 
 
 echo "Running DisPredict_v2.0"
