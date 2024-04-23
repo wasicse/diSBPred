@@ -15,66 +15,57 @@ the UniProt id's of the proteins used to benchmark diSBPred.
 git clone https://github.com/wasicse/diSBPred.git
 
 ```
-## INPUT
-Make sure the input has a new line at the end.
 
 ### Dependencies
 
-We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
+We have tested diSBPred on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
 
 1. pyenv latest version
-    ```
-    curl https://pyenv.run | bash
-    exec $SHELL
-    ```
-    For more details, visit: https://github.com/pyenv/pyenv-installer
 
-1. Python version 3.7.4
+2. Python version 3.7.4
 
-    ```
-    pyenv install miniconda3-4.7.12
-    pyenv local miniconda3-4.7.12 
-    ```
-
-    For more details, visit: https://github.com/pyenv/pyenv
-
-2. Poetry version 1.1.13
-
-    ```
-    curl -sSL https://install.python-poetry.org | python3 - --version 1.1.13
-    ```
-    For more details, visit: https://python-poetry.org/docs/
+3. Poetry version 1.1.13
 
 You can install them using the following command:
 
 ```
-Install_pyenv_poetry.sh
+install_dependencies.sh
 ```
 ## Run diSBPred
 
-To run the program, first install all required libraries by running the following command:
-
-```
-cd diSBPred
-poetry install
-poetry shell
-```
-
-Then execute the following command to run Dispredict3.0 from the script directory.
+To run the program, executes the following command to run diSBPred from the script directory.
 
 ```
 ./run_diSBPred.sh
 ```
+## Run with Docker
+- To run the diSBPred tool with docker, you can either build the docker image using dockerfile or pull the docker image from the registry.
 
-## Correspondence
+#### Build Docker image 
 
-Please address your questions to:
-	Dr. Md Tamjidul Hoque
-	email: thoque@uno.edu
-	Department of Computer Science
-	University of New Orleans
-	2000 Lakeshore Dr., New Orleans, LA, 70148
+```
+docker build -t wasicse/disbpred https://github.com/wasicse/disbpred.git#master    
+```
+ #### (Alternatively) Pull image from Docker registry.
 
+- Pull the image from the registry.
+ ```
+docker pull wasicse/disbpred:latest
+```
+#### Run run_diSBPred using Docker image
+- Create the run_diSBPred container. The script will mount input fasta, and outputs directorries form the current (run_diSBPred) directory (downlaoded from GitHub) into the docker container.
+
+```
+././run_diSBPred_Docker.sh $(pwd)/Input/input.txt Output
+```
+
+
+## Authors
+
+Md Wasi Ul Kabir, Md Tamjidul Hoque. For any issue please contact: Md Tamjidul Hoque, thoque@uno.edu 
+
+## References
+1. Mishra, Avdesh, et al. “diSBPred: A Machine Learning Based Approach for Disulfide Bond Prediction.” Computational Biology and Chemistry, vol. 91, Apr. 2021, p. 107436. ScienceDirect, https://doi.org/10.1016/j.compbiolchem.2021.107436.
 
 
 
