@@ -15,7 +15,7 @@ RUN echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 # RUN pyenv install ${PYTHON_VERSION2} && \
 #       pyenv global ${PYTHON_VERSION2}
 
-RUN echo "Cloning diSBPred from github.."      
+RUN echo "Cloning diSBPred from github..."      
 RUN git clone https://github.com/wasicse/diSBPred.git && \
 chmod -R 777 /opt/diSBPred
 WORKDIR "/opt/diSBPred"
