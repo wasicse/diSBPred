@@ -73,3 +73,6 @@ java CreateWindowsForSingleCysteineForCombinedData
 python LightGBM_CollectIndividualCysProb_ws31.py
 java CreateWindowsForCysteinePairForCombinedData
 python Stacking_CysPairLoadModel_Test_ws13.py
+cd -
+
+chmod -R 777 Output
