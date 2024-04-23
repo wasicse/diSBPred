@@ -53,7 +53,7 @@ docker build -t wasicse/disbpred https://github.com/wasicse/disbpred.git#master
 docker pull wasicse/disbpred:latest
 ```
 #### Run run_diSBPred using Docker image
-- Create the run_diSBPred container. The script will mount input fasta, and outputs directorries form the current (run_diSBPred) directory (downlaoded from GitHub) into the docker container.
+- Create the run_diSBPred container. The script will mount input fasta, and output directories from the current (run_diSBPred) directory (downloaded from GitHub) into the docker container.
 
 ```
 ././run_diSBPred_Docker.sh $(pwd)/Input/input.txt Output
