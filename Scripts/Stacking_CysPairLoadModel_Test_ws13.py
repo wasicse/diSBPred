@@ -38,21 +38,24 @@ with open(list_file_path, "r") as f:
 		out_file = open(output_file, 'wb')
 		np.savetxt(fname=output_file, X=y_pred, fmt='%d %0.4f %0.4f', header='predClass, probN, probB', comments='')
 
-file1=open("../Output/"+id+'.predict',"w")
-file2=open('./IndividualCysPredictionProb/'+id+'.predict',"r")
-file3=open(output_path+id+'.predict',"r")
-# read content from first file
-file1.write("IndividualCysPredictionProb \n")
-for line in file2:			
-	file1.write(line)
+with open(list_file_path, "r") as f:
+	for id in f:
+		id = id.strip()
+		file1=open("../Output/"+id+'.predict',"w")
+		file2=open('./IndividualCysPredictionProb/'+id+'.predict',"r")
+		file3=open(output_path+id+'.predict',"r")
+		# read content from first file
+		file1.write("IndividualCysPredictionProb \n")
+		for line in file2:			
+			file1.write(line)
 
-file1.write("CysPairPredictionProb \n")
-for line in file3:			
-	file1.write(line)
+		file1.write("CysPairPredictionProb \n")
+		for line in file3:			
+			file1.write(line)
 
-file1.close()
-file2.close()
-file3.close()
+		file1.close()
+		file2.close()
+		file3.close()
 
 
 
