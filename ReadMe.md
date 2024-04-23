@@ -3,20 +3,22 @@ diSBPred: A Machine Learning based Approach for Disulfide Bond Prediction
 Authors: Avdesh Mishra, Md Wasi Ul Kabir and Md Tamjidul Hoque
 
 *******************************************************************
-diSBPred is a software used to predict disulfide bonds from protein sequence
+diSBPred is a software used to predict disulfide bonds from protein sequence.
 
  ## Dataset
-Under "Data" directory you will be able to find a list file "list_1859_Uniprot_Cutoff25_33_Intra_Cutoff25_Combined_Cutoff25_TotalProts1866.txt", which contains
+Under "Dataset" directory you will be able to find a list file "list_1859_Uniprot_Cutoff25_33_Intra_Cutoff25_Combined_Cutoff25_TotalProts1866.txt", which contains
 the UniProt id's of the proteins used to benchmark diSBPred.
 
-- Retrieve the code
+# Getting Started
+
+ ## Retrieve the code
 
 ```
 git clone https://github.com/wasicse/diSBPred.git
 
 ```
 
-### Dependencies
+### Install Dependencies
 
 We have tested diSBPred on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
 
@@ -29,11 +31,11 @@ We have tested diSBPred on Ubuntu 20.04. You would need to install the following
 You can install them using the following command:
 
 ```
-install_dependencies.sh
+./install_dependencies.sh
 ```
 ## Run diSBPred
 
-To run the program, executes the following command to run diSBPred from the script directory.
+To run the program, executes the following command to run diSBPred from the script directory. The tool takes input from Input/input.txt file.
 
 ```
 ./run_diSBPred.sh
@@ -58,7 +60,6 @@ docker pull wasicse/disbpred:latest
 ```
 ././run_diSBPred_Docker.sh $(pwd)/Input/input.txt Output
 ```
-
 
 ## Authors
 
