@@ -22,6 +22,17 @@ astroid = ["astroid (>=1,<2)", "astroid (>=2,<4)"]
 test = ["pytest", "astroid (>=1,<2)", "astroid (>=2,<4)"]
 
 [[package]]
+name = "biopython"
+version = "1.83"
+description = "Freely available tools for computational molecular biology."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+numpy = "*"
+
+[[package]]
 name = "cffi"
 version = "1.16.0"
 description = "Foreign Function Interface for Python calling C code."
@@ -354,7 +365,7 @@ scipy = "*"
 
 [package.extras]
 arrow = ["cffi (>=1.15.1)", "pyarrow (>=6.0.1)"]
-dask = ["dask[array,dataframe,distributed] (>=2.0.0)", "pandas (>=0.24.0)"]
+dask = ["dask[distributed,dataframe,array] (>=2.0.0)", "pandas (>=0.24.0)"]
 pandas = ["pandas (>=0.24.0)"]
 scikit-learn = ["scikit-learn (!=0.22.0)"]
 
@@ -764,11 +775,12 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8aaf55afb2ea9b8ce0fad28ea4b7edfa01652dd11c792fd135378a589bd9b02f"
+content-hash = "37281c1f97ca19dbf96b4752075f87b0bab4a4d45a600ef48c0f5c4cbaf53b9b"
 
 [metadata.files]
 appnope = []
 asttokens = []
+biopython = []
 cffi = []
 colorama = []
 comm = []

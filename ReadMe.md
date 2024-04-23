@@ -15,6 +15,8 @@ the UniProt id's of the proteins used to benchmark diSBPred.
 git clone https://github.com/wasicse/diSBPred.git
 
 ```
+## INPUT
+Make sure the input has a new line at the end.
 
 ### Dependencies
 
@@ -46,7 +48,7 @@ We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the foll
 You can install them using the following command:
 
 ```
-install_dependencies.sh
+Install_pyenv_poetry.sh
 ```
 ## Run diSBPred
 
@@ -63,14 +65,6 @@ Then execute the following command to run Dispredict3.0 from the script director
 ```
 ./run_diSBPred.sh
 ```
-
-
-docker run --rm  -it \
-	--entrypoint /bin/bash \
-	wasicse/disbpred:latest 	
-
-./run_diSBPred_Docker.sh $(pwd)/Input/FASTA $(pwd)/Input/id_list.txt Output
-
 
 ## Correspondence
 
