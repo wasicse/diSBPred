@@ -46,7 +46,7 @@ We have tested Dispredict3.0 on Ubuntu 20.04. You would need to install the foll
 You can install them using the following command:
 
 ```
-Install_pyenv_poetry.sh
+install_dependencies.sh
 ```
 ## Run diSBPred
 
@@ -63,6 +63,14 @@ Then execute the following command to run Dispredict3.0 from the script director
 ```
 ./run_diSBPred.sh
 ```
+
+
+docker run --rm  -it \
+	--entrypoint /bin/bash \
+	wasicse/disbpred:latest 	
+
+./run_diSBPred_Docker.sh $(pwd)/Input/FASTA $(pwd)/Input/id_list.txt Output
+
 
 ## Correspondence
 

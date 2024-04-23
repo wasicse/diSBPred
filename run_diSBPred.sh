@@ -8,26 +8,36 @@ source ./.venv/bin/activate
 
 Home=$PWD
 
-echo "Removing old Results"
-rm -f -r Scripts/CombFeatures
-rm -f -r SingleCysWindowedFile
-rm -f -r Scripts/IndividualCysPredictionProb
-rm -f -r Scripts/CysPairWindowedFiles_IncCysProb
-rm -f -r Scripts/Predictions_IncSingCysProb_5folddata
+# ask for confirmation before removing the old results
+read -p "Removing old files? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    
+    echo "Removing old Results"
+    rm -f -r Scripts/CombFeatures
+    rm -f -r SingleCysWindowedFile
+    rm -f -r Scripts/IndividualCysPredictionProb
+    rm -f -r Scripts/CysPairWindowedFiles_IncCysProb
+    rm -f -r Scripts/Predictions_IncSingCysProb_5folddata
 
 
-rm -f -r Tools/DisPredict_v2.0/Software/PSSM/*
-rm -f -r Tools/DisPredict_v2.0/Software/Features/*
-rm -f -r Tools/DisPredict_v2.0/Software/Output/log/*
-rm -f -r Tools/DisPredict_v2.0/Software/Output/prediction/*
+    rm -f -r Tools/DisPredict_v2.0/Software/PSSM/*
+    rm -f -r Tools/DisPredict_v2.0/Software/Features/*
+    rm -f -r Tools/DisPredict_v2.0/Software/Output/log/*
+    rm -f -r Tools/DisPredict_v2.0/Software/Output/prediction/*
 
-rm -f -r Tools/DisPredict_v2.0/Software/Input
-rm -f -r Tools/BalancedSSP/Software/PSSM/*
-rm -f -r Tools/BalancedSSP/Software/Features/*
-rm -f -r Tools/BalancedSSP/Software/Output/log/*
-rm -f -r Tools/BalancedSSP/Software/Output/prediction/*
+    rm -f -r Tools/DisPredict_v2.0/Software/Input
+    rm -f -r Tools/BalancedSSP/Software/PSSM/*
+    rm -f -r Tools/BalancedSSP/Software/Features/*
+    rm -f -r Tools/BalancedSSP/Software/Output/log/*
+    rm -f -r Tools/BalancedSSP/Software/Output/prediction/*
 
-rm -f -r Tools/BalancedSSP/Software/Input
+    rm -f -r Tools/BalancedSSP/Software/Input
+    echo "Old results are not removed"
+    # exit 1
+fi
+
 
 mkdir -p Scripts/CombFeatures
 mkdir -p Scripts/SingleCysWindowedFile

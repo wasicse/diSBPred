@@ -11,12 +11,18 @@ libsvm_path="../../../libsvm-3.17";
 spinex_path="../AdditionalFiles/spineXpublic";
 davar_path="../AdditionalFiles/davar";
 
-feature="../../../../Features";
+feature="../Features";
 input_path="../Input";
 source_code_path="../Codes";
 query_sequence_path="../Features";
 pssm_output_file_path="../Features";
 sequence="../Features";
+
+mkdir -p ../Features
+mkdir -p ../Output
+mkdir -p ../Output/log
+mkdir -p ../Output/prediction
+mkdir -p ../PSSM
 
 printf "\n-------------- BalancedSSP Start------------------\n";
 for file in `cat $input_path/id_list.txt` ; 
@@ -104,7 +110,7 @@ do
 		echo $file > $spinex_path/test/list1;
 		mv ../Features/$file/$file.fasta ../Features/$file/$file
 		cp ../Features/$file/$file $spinex_path/test/sequence;
-		cp ../Features/$file/$file.mat $spinex_path/test/profile;
+		cp ../Features/$file/$file.mat $spinex_path/test/profile/;
 		$spinex_path/spX.pl $spinex_path/test/list1 $spinex_path/test/profile/ > ../Output/log/log_spinex.txt;
 		cp spXout/$file.spXout ../Features/$file;
 		rm -r spXout;
