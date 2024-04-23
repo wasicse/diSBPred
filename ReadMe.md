@@ -63,7 +63,7 @@ docker pull wasicse/disbpred:latest
 
 ## Authors
 
-Md Wasi Ul Kabir, Md Tamjidul Hoque. For any issue please contact: Md Tamjidul Hoque, thoque@uno.edu 
+Avdesh Mishra, Md Wasi Ul Kabir, Md Tamjidul Hoque. For any issue please contact: Md Tamjidul Hoque, thoque@uno.edu 
 
 ## References
 1. Mishra, Avdesh, et al. “diSBPred: A Machine Learning Based Approach for Disulfide Bond Prediction.” Computational Biology and Chemistry, vol. 91, Apr. 2021, p. 107436. ScienceDirect, https://doi.org/10.1016/j.compbiolchem.2021.107436.
