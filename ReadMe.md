@@ -11,14 +11,14 @@ the UniProt id's of the proteins used to benchmark diSBPred.
 
 # Getting Started
 
- ## Retrieve the code
+## Retrieve the code
 
 ```
 git clone https://github.com/wasicse/diSBPred.git
 
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 We have tested diSBPred on Ubuntu 20.04. You would need to install the following software before replicating this framework in your local or server machine. 
 
@@ -58,7 +58,7 @@ docker pull wasicse/disbpred:latest
 - Create the run_diSBPred container. The script will mount input fasta, and output directories from the current (run_diSBPred) directory (downloaded from GitHub) into the docker container.
 
 ```
-././run_diSBPred_Docker.sh $(pwd)/Input/input.txt Output
+./run_diSBPred_Docker.sh $(pwd)/Input/input.txt Output
 ```
 
 ## Authors
