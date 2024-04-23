@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2 && \
 apt-get update && \
-apt-get install -y --no-install-recommends make build-essential libssl-dev  wget curl llvm libidn11 openjdk-11-jre git nano tcsh sudo gfortran default-jdk
+apt-get install -y --no-install-recommends make build-essential libssl-dev  wget curl llvm libidn11  ca-certificates-java openjdk-11-jdk git nano tcsh sudo gfortran
 WORKDIR "/opt"
 
 RUN git clone --depth=1 https://github.com/pyenv/pyenv.git .pyenv
