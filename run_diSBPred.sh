@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ./download_largefiles.sh
-
+./download_dataset.sh
 #Install dependencies
 source ./.venv/bin/activate
 ./.venv/bin/poetry install

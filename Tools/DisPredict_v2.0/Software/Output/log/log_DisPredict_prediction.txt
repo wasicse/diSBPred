@@ -1,3 +1,0 @@
-example
-SVM SCALE Command: ../../../libsvm-3.17/svm-scale -r ../Models/DisPredict2_SVM/scale_range_sl_dispredict2 ../Features/example/example.final.dispredict2.input > ../Output/prediction/example/example.dispredict2.sl477.scale
-SVM PREDICT Command: ../../../libsvm-3.17/svm-predict -b 1 ../Output/prediction/example/example.dispredict2.sl477.scale ../Models/DisPredict2_SVM/DisPredict2_SL477.model ../Output/prediction/example/example.dispredict2.sl477.predict >> ../Output/log/log_example_SL477_prediction

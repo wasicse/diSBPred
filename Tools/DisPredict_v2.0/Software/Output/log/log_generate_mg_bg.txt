@@ -1,5 +1,1 @@
 ../Features/example/example.pssm
-../Features/example/example.monogram
-../Features/example/example.bigram
-SEQUENCE LENGTH: 318
-Sequence Length: 318

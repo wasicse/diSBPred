@@ -1,4 +1,17 @@
-Program index (in temp directory): 730726
+Program index (in temp directory): 334815
 Please wait, calculating prediction ...
-Predictions in spXout dir.
-
+forrtl: Is a directory
+forrtl: severe (30): open failure, unit 77, file /home/mkabir3/Research/0_CompletedProjects/FinalVersions/NeedFix/diSBPred/Tools/DisPredict_v2.0/Software/AdditionalFiles/spineXpublic//weights/ss0/av1
+Image              PC                Routine            Line        Source             
+phipsi_ss0.e       00000000004814AE  Unknown               Unknown  Unknown
+phipsi_ss0.e       000000000047FF46  Unknown               Unknown  Unknown
+phipsi_ss0.e       00000000004402E2  Unknown               Unknown  Unknown
+phipsi_ss0.e       000000000040DD3B  Unknown               Unknown  Unknown
+phipsi_ss0.e       000000000040D2A2  Unknown               Unknown  Unknown
+phipsi_ss0.e       0000000000417E68  Unknown               Unknown  Unknown
+phipsi_ss0.e       0000000000404E66  Unknown               Unknown  Unknown
+phipsi_ss0.e       0000000000404019  Unknown               Unknown  Unknown
+phipsi_ss0.e       0000000000402B3C  Unknown               Unknown  Unknown
+libc.so.6          00007EFCD873E083  Unknown               Unknown  Unknown
+phipsi_ss0.e       0000000000402A39  Unknown               Unknown  Unknown
+Aborting: Can't run first SS predictor

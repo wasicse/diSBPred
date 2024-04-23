@@ -1,4 +1,0 @@
-Program index (in temp directory): 891353
-Please wait, calculating prediction ...
-Predictions in spXout dir.
-

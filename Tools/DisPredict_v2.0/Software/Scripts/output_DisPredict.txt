@@ -4,21 +4,53 @@
 1
 
 ID: example
-Directory and fasta file already exists!!
+Length: 500
+processing Input......DONE!!!
 cp: cannot stat '../PSSM/example.mat': No such file or directory
 cp: cannot stat '../PSSM/example.mat': No such file or directory
-PSSM already exists!!
-IUPred short & long already exists!!
-Monorgam & Bigram exists!!
-SPINE X output exists!!
-phi fluctuation & psi fluctuation exists!!
-preparing input features of DisPredict1......DONE!!!
-Predicted intermediate Secondary structure output already exists!!
-Predicted Secondary structure output already exists!!
-PSEE exists!!
-dispredict2 features already exists!!
-mkdir: cannot create directory ‘../Output/prediction/example’: File exists
-mkdir: cannot create directory ‘../Output/prediction/example/DisPredict2’: File exists
-running DisPredict2......DONE!!!
+running PSI-BLAST...BLAST Database error: No alias or index file found for protein database [../../../../Database/nr/nr] in search path [/home/mkabir3/Research/0_CompletedProjects/FinalVersions/NeedFix/diSBPred/Tools/DisPredict_v2.0/Software/Scripts::]
+cp: cannot stat '../Features/example/example.pssm': No such file or directory
+...DONE!!!
+running IUPred (short & long)...../AdditionalFiles/iupred/iupred.c: In function ‘read_mat’:
+../AdditionalFiles/iupred/iupred.c:414:16: warning: ‘%s’ directive writing up to 999 bytes into a region of size 20 [-Wformat-overflow=]
+  414 |   sprintf(AAL,"%s",ln);
+      |                ^~  ~~
+../AdditionalFiles/iupred/iupred.c:414:3: note: ‘sprintf’ output between 1 and 1000 bytes into a destination of size 20
+  414 |   sprintf(AAL,"%s",ln);
+      |   ^~~~~~~~~~~~~~~~~~~~
+...DONE!!!
+generating monogram and bigram...Can't open pssm file!
+...DONE!!!
+running SPINE-X...cp: cannot stat '../Features/example/example.mat': No such file or directory
+cp: cannot stat 'spXout/example.spXout': No such file or directory
+...DONE!!!
+collecting features for angle fluctuation prediction...Can't open pssm file!
+...DONE!!!
+running angle (phi,psi) fluctuation prediction...Can't find file ../../../../Features/example/example.davar_features
 
--------------- DisPredict_v2.0 End------------------
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+Can't find file ../../../../Features/example/example.davar_features
+
+...DONE!!!
+preparing input features of DisPredict1...Can't open pssm file!
+...DONE!!!
+collecting features for intermediate SS prediction...Can't open pssm file!
+...DONE!!!
+generating input for intermediate SS prediction...Can't open all feature file File!
+...DONE!!!
+predicting intermediate secondary structure and processing output.../home/mkabir3/Research/0_CompletedProjects/FinalVersions/NeedFix/diSBPred/Tools/DisPredict_v2.0/Software/Codes
