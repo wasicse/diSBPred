@@ -101,6 +101,9 @@ do
 	
 	#===========================================================================================================
 	#Run SPINE-X
+	rm -rf $spinex_path/test/profile
+	mkdir $spinex_path/test/profile
+	
 	if [ -f ../Features/$file/$file.spXout ];
 	then
 		printf "SPINE X output exists!!\n";
