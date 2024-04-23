@@ -22,7 +22,7 @@ chmod  777 $output_dir
 
 ESMpath="/opt/diSBPred"
 docker run --rm  -it \
-	-v $input_fasta:$ESMpath/Input/FASTA \
+	-v $input_fasta:$ESMpath/Input/input.txt \
 	-v $(pwd)/Output:$ESMpath/$output_dir:rw \
 	--entrypoint /bin/bash \
 	wasicse/disbpred:latest 	

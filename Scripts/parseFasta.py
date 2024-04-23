@@ -8,8 +8,8 @@ for record in SeqIO.parse("../Input/input.txt", "fasta"):
        
         pid=record.id.strip()
         fasta=record.seq
-        print("Protein ID: ", pid)
-        print("Protein Sequence: ", fasta)
+        # print("Protein ID: ", pid)
+        # print("Protein Sequence: ", fasta)
         # Write them into file
         filefasts=open("../Input/FASTA/"+pid+".fasta", "w")
         fileid.write(pid+"\n")
