@@ -10,7 +10,7 @@ while read -r line; do
     then
         echo "File does not exists! ../$line2"
         filename=$(basename "$line")
-        wget -nc https://www.cs.uno.edu/~mkabir3/$destinationFolder/$filename.tar.gz -P ./
+        wget -nc https://huggingface.co/datasets/wasicse/diSBPred/resolve/main/$filename.tar.gz -P ./
         tar -xzvf $filename.tar.gz
         mv $filename "../$line2" 
     fi
